@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Conexiones Épicas · Explorá, descubrí y transformá</title>
+  <meta name="description" content="Una experiencia interactiva sobre inclusión: explorá un mundo ilustrado, descubrí barreras y transformá los espacios para que todos podamos participar.">
+  <meta name="theme-color" content="#1F4FD8">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon points='32,6 58,20 58,44 32,58 6,44 6,20' fill='%2317BFAE'/%3E%3Cpolygon points='32,6 58,20 32,34 6,20' fill='%23FFC83D'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="route-entrada">
+  <a class="skip" href="#panel">Saltar al panel de juego</a>
+
+  <header class="topbar">
+    <button type="button" class="brand" id="btnHome" aria-label="CONEXIONES ÉPICAS: volver a la entrada">
+      <svg viewBox="0 0 64 64" width="32" height="32" aria-hidden="true" focusable="false"><polygon points="32,6 58,20 58,44 32,58 6,44 6,20" fill="#17BFAE"/><polygon points="32,6 58,20 32,34 6,20" fill="#FFC83D"/><polygon points="32,34 58,20 58,44 32,58" fill="#1F4FD8"/></svg>
+      <span>CONEXIONES ÉPICAS</span>
+    </button>
+    <p class="progress" id="progress" hidden></p>
+    <nav class="tools" aria-label="Herramientas">
+      <button type="button" id="btnMap" class="tool" hidden><svg class="ti" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 4v14M15 6v14" stroke="currentColor" stroke-width="2"/></svg> MAPA</button>
+      <button type="button" id="btnListen" class="tool" aria-pressed="false"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 9h4l5-4v14l-5-4H3z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg> ESCUCHAR</button>
+      <button type="button" id="btnStop" class="tool stop" hidden><svg class="ti" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg> DETENER VOZ</button>
+      <button type="button" id="btnHelp" class="tool"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7v.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17" r="1.2" fill="currentColor"/></svg> AYUDA</button>
+      <button type="button" id="btnA11y" class="tool"><svg class="ti" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="4.5" r="2" fill="currentColor"/><path d="M5 8l7 1.5L19 8M12 9.5V14l-3 6M12 14l3 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg> OPCIONES DE ACCESIBILIDAD</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="stage" aria-label="Escenario del juego">
+      <div class="scene">
+        <div class="scene-art" id="sceneArt" role="img" aria-label="Cargando el mundo"></div>
+        <div class="hotspots" id="hotspots"></div>
+        <div class="scene-overlay" id="sceneOverlay"></div>
+      </div>
+    </section>
+    <section class="panel" id="panel" tabindex="-1" aria-label="Panel de juego">
+      <noscript><p>Esta experiencia necesita JavaScript activado para funcionar.</p></noscript>
+    </section>
+  </main>
+
+  <div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <div id="toast" class="toast" aria-hidden="true"></div>
+
+  <dialog id="dlgHelp" aria-labelledby="helpTitle">
+    <div class="dlg">
+      <h2 id="helpTitle" tabindex="-1">AYUDA</h2>
+      <h3>Cómo se juega</h3>
+      <p>Explorá el paisaje tocando los puntos marcados o usando la lista del panel. Cada misión tiene cinco etapas: explorar, escuchar y consultar, transformar, comprobar y reflexionar.</p>
+      <p>Tus decisiones cambian el escenario. Al comprobar, vas a ver qué permite cada cambio y qué falta resolver. Podés reintentar todas las veces que quieras.</p>
+      <h3>Pistas y secretos</h3>
+      <p>En cada desafío hay pistas graduales: pedirlas no resta nada. En los paisajes hay secretos opcionales (marcados con ✦) que agregan detalles al mapa.</p>
+      <h3>Teclado</h3>
+      <p>Usá Tab y Mayús + Tab para moverte, y Enter o Espacio para activar. Todos los puntos del paisaje también están en el panel como lista. Escape cierra esta ventana.</p>
+      <h3>Voz</h3>
+      <p>La voz está apagada. Tocá ESCUCHAR para oír el panel actual y DETENER VOZ para cortarla. Todo lo que se escucha también está escrito.</p>
+      <h3>Jugar en grupo</h3>
+      <p>En modo grupal, antes de comprobar cada transformación aparece una pausa para conversar. Pueden cambiarlo en OPCIONES DE ACCESIBILIDAD.</p>
+      <button type="button" class="btn primary" data-close>Cerrar ayuda</button>
+    </div>
+  </dialog>
+
+  <dialog id="dlgA11y" aria-labelledby="a11yTitle">
+    <div class="dlg">
+      <h2 id="a11yTitle" tabindex="-1">OPCIONES DE ACCESIBILIDAD</h2>
+      <fieldset class="opt-row">
+        <legend>Tamaño del texto</legend>
+        <div class="chips">
+          <button type="button" class="chip" data-act="setText" data-arg="0" aria-pressed="true">Normal</button>
+          <button type="button" class="chip" data-act="setText" data-arg="1" aria-pressed="false">Grande</button>
+          <button type="button" class="chip" data-act="setText" data-arg="2" aria-pressed="false">Más grande</button>
+          <button type="button" class="chip" data-act="setText" data-arg="3" aria-pressed="false">Muy grande</button>
+        </div>
+      </fieldset>
+      <label class="check"><input type="checkbox" id="optContrast"> Contraste alto</label>
+      <label class="select" for="optMotion">Movimiento
+        <select id="optMotion">
+          <option value="auto">Según la preferencia del dispositivo</option>
+          <option value="reduce">Reducir movimiento</option>
+          <option value="full">Animaciones suaves</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="optAutoread"> Leer en voz cada pantalla nueva</label>
+      <p class="note" id="voiceSupport"></p>
+      <label class="check"><input type="checkbox" id="optGroup"> Modo grupal (pausa para conversar antes de confirmar)</label>
+      <h3>Progreso</h3>
+      <p class="note" id="storageNote"></p>
+      <button type="button" class="btn ghost" id="btnReset">Reiniciar progreso</button>
+      <div id="resetConfirm" class="confirm" hidden>
+        <p>¿Seguro? Se borra todo el avance guardado en este dispositivo.</p>
+        <button type="button" class="btn primary" id="btnResetYes">Sí, reiniciar</button>
+        <button type="button" class="btn" id="btnResetNo">Cancelar</button>
+      </div>
+      <button type="button" class="btn primary" data-close>Cerrar opciones</button>
+    </div>
+  </dialog>
+
+  <script src="js/content.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
